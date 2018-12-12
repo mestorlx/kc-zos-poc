@@ -1,0 +1,6 @@
+build/
+zos.development.json
+node_modules/
+package-lock.json
+wallet.json
+zos.json
