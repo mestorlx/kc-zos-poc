@@ -9,9 +9,8 @@
   "author": "Martín Diz <github@martindiz.com.ar>",
   "license": "MIT",
   "devDependencies": {
-    "zos": "1.1.0"
-  },
-  "dependencies": {
-    "zos-lib": "1.3.0"
+    "zos": "1.1.0",
+    "zos-lib": "^2.0.1",
+    "openzeppelin-eth": "^2.0.2"
   }
 }
