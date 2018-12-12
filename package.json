@@ -1,0 +1,17 @@
+{
+  "name": "kc-zos-poc",
+  "version": "0.0.1",
+  "description": "POC to demonstrate how zeppelinOS can be used to manage ocean protocols keeper-contracts upgradability",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Martín Diz <github@martindiz.com.ar>",
+  "license": "MIT",
+  "devDependencies": {
+    "zos": "1.1.0"
+  },
+  "dependencies": {
+    "zos-lib": "1.3.0"
+  }
+}
