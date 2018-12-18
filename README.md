@@ -16,16 +16,10 @@ Note:This work is based on [zeppelins documentation](https://docs.zeppelinos.org
     npx ganache-cli --port 9545 --deterministic
     ```
 
-3. Setup the environment with
+3. Test upgradability
 
     ```bash
-    ./setupAndDeploy.sh
-    ```
-
-4. Test upgradability
-
-    ```bash
-    ./performTest.sh
+    npm test
     ```
 
 ## Details
