@@ -7,10 +7,12 @@ global.web3 = web3;
 
 async function setUpWallet() {
     console.log("Setting accounts")
-    o0 = web3.eth.accounts[0]
-    o1 = web3.eth.accounts[1]
-    o2 = web3.eth.accounts[2]
-    o3 = web3.eth.accounts[3]
+    accounts = await web3.eth.getAccounts()
+    o0 = accounts[0]
+    o1 = accounts[1]
+    o2 = accounts[2]
+    o3 = accounts[3]
+
     await MultiSigWallet.new([o0, o1, o2, o3], 2, { from: o0 }).then(i => {
         multisig = i
     })
@@ -19,15 +21,15 @@ async function setUpWallet() {
         wallet: multisig.address,
         owners: [o0, o1, o2, o3]
     }
-    console.log("Wallet address:", addresses)
 
     await fs.writeFileSync('./wallet.json', JSON.stringify(addresses, null, 4), 'utf8', (err) => {
         if (err) {
             console.error("Erro writing file:", err);
             return;
         };
-        console.log("Wallet file has been created");
     });
+    console.log("Wallet file has been created");
+
 }
 
 module.exports = function (cb) {

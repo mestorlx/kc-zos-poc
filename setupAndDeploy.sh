@@ -2,8 +2,14 @@
 # -----------------------------------------------------------------------
 # Compile and deploy contracts
 # -----------------------------------------------------------------------
+
+echo 'Using zos version:'
+npx zos --version
+echo 'Using truffle version:'
+npx truffle version
 ./deployContracts.sh
 set -e
+
 # -----------------------------------------------------------------------
 # Change admin priviliges to multisig
 # -----------------------------------------------------------------------
@@ -13,4 +19,4 @@ npx truffle exec setupWallet.js
 # Get wallet address
 w=$(jq -r '.wallet' wallet.json)
 # Change admin of contract to the wallet
-npx truffle exec changeAdmin.js DIDRegistry $w --network development
+npx zos set-admin DIDRegistry $w --network development --yes

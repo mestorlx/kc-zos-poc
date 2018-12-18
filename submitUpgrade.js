@@ -4,6 +4,7 @@ const encodeCall = require('zos-lib').encodeCall;
 const fs = require('fs');
 const process = require('process');
 const MultiSigWallet = artifacts.require('MultiSigWallet')
+const glob = require("glob")
 
 global.artifacts = artifacts;
 global.web3 = web3;
@@ -15,9 +16,16 @@ async function submitUpgrade(networkName, contractName, multisigAddress, sender)
   if (!sender) {
     throw Error("Account number of a owner is required");
   }
-  const networkInfo = JSON.parse(fs.readFileSync(`zos.${networkName}.json`));
+  let files = glob.sync("./zos.dev-*.json")
+  if (files === undefined || files.length == 0) {
+    // array empty or does not exist
+    console.log("zos config file not found (zos.dev-*.json)")
+  }
 
-  const proxiesOfContract = networkInfo.proxies[contractName];
+  console.log("using json:", files[0])
+  const networkInfo = JSON.parse(fs.readFileSync(files[0]));
+
+  const proxiesOfContract = networkInfo.proxies['oceanprotocol/' + contractName];
   if (!proxiesOfContract || proxiesOfContract.length === 0) {
     throw Error(`No deployed proxies of contract ${contractName} found`);
   } else if (proxiesOfContract.length > 1) {
@@ -33,7 +41,7 @@ async function submitUpgrade(networkName, contractName, multisigAddress, sender)
   const implementationAddress = implementationOfContract.address;
   console.log(`Requesting instance upgrade of ${proxyAddress} of ${contractName} to ${implementationAddress} from owner ${sender} via wallet ${multisigAddress}`);
 
-  const multisig = MultiSigWallet.at(multisigAddress);
+  const multisig = await MultiSigWallet.at(multisigAddress);
   const upgradeCallData = encodeCall('upgradeTo', ['address'], [implementationAddress]);
   await multisig.submitTransaction(proxyAddress, 0, upgradeCallData, { from: sender });
 

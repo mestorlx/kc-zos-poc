@@ -12,12 +12,11 @@ npx zos push --skip-compile --network development
 w=$(jq -r '.wallet' wallet.json)
 o=$(jq -r '.owners[0]' wallet.json)
 npx truffle exec submitUpgrade.js DIDRegistry $w $o --network development
-
-p=$(jq -r ".proxies.DIDRegistry[].address" zos.development.json)
+p=$(jq -r '.proxies."oceanprotocol/DIDRegistry"[].address' zos.dev-*.json)
 echo "Upgrade was submited but it is pending until approved"
 echo "You can test the code in truffle by using:"
-echo "p=DIDRegistryExtraFunctionality.at('$p')"
-echo "p.getNumber().then(i=>i.valueOf())"
+echo "DIDRegistryExtraFunctionality.at('$p').then(i=>p=i)"
+echo "p.getNumber().then(i=>i.toString())"
 echo "NOTE: This method will fail until upgrade is approved"
 echo "Press enter to continue and approve"
 read
@@ -28,6 +27,6 @@ npx truffle exec approveUpgrade.js $w $u --network development
 
 echo "Done!"
 echo "You can test the code in truffle by using:"
-echo "p=DIDRegistryExtraFunctionality.at('$p')"
-echo "p.getNumber().then(i=>i.valueOf())"
+echo "DIDRegistryExtraFunctionality.at('$p').then(i=>p=i)"
+echo "p.getNumber().then(i=>i.toString())"
 echo "NOTE: This method will now work!"
